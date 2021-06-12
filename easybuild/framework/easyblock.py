@@ -466,8 +466,9 @@ class EasyBlock(object):
                                          str(patch_spec))
             else:
                 if not patch_spec.endswith('.patch'):
-                    is_copy_file = True
-                    suff = os.path.curdir
+                    raise EasyBuildError(
+                        "No '.patch' suffix in file %s implies file to copy, but no destination path given. "
+                        "For file to copy, use tuple(filename, destination)", patch_spec)
                 patch_file = patch_spec
 
             force_download = build_option('force_download') in [FORCE_DOWNLOAD_ALL, FORCE_DOWNLOAD_PATCHES]
@@ -482,8 +483,7 @@ class EasyBlock(object):
                 if suff:
                     if is_copy_file:
                         patchspec['copy'] = suff
-                        self.log.info('Patch %s does not have ".patch" suffix, assuming regular file.'
-                                       'Just copying to %s, not patching' % (patchspec['path'], patchspec['copy'])
+                        self.log.info("No '.patch' suffix in file %s: just copying, not patching", patchspec['path'])
                     else:
                         patchspec['sourcepath'] = suff
                 if level is not None:
