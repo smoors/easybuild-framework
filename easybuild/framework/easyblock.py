@@ -443,7 +443,7 @@ class EasyBlock(object):
         for index, patch_spec in enumerate(patch_specs):
 
             # check if the patches can be located
-            just_copy_file = False
+            is_copy_file = False
             suff = None
             level = None
             if isinstance(patch_spec, (list, tuple)):
@@ -459,14 +459,15 @@ class EasyBlock(object):
                 elif isinstance(patch_spec[1], string_type):
                     # non-patch files are assumed to be files to copy
                     if not patch_spec[0].endswith('.patch'):
-                        just_copy_file = True
+                        is_copy_file = True
                     suff = patch_spec[1]
                 else:
                     raise EasyBuildError("Wrong patch spec '%s', only int/string are supported as 2nd element",
                                          str(patch_spec))
             else:
-                if not patch_file.endswith('.patch'):
-                    just_copy_file = True
+                if not patch_spec.endswith('.patch'):
+                    is_copy_file = True
+                    suff = os.path.curdir
                 patch_file = patch_spec
 
             force_download = build_option('force_download') in [FORCE_DOWNLOAD_ALL, FORCE_DOWNLOAD_PATCHES]
@@ -479,10 +480,10 @@ class EasyBlock(object):
                     'checksum': self.get_checksum_for(checksums, index=index),
                 }
                 if suff:
-                    if just_copy_file:
+                    if is_copy_file:
                         patchspec['copy'] = suff
-                        self.log.debug('Patch %s does not have ".patchc" suffix, assuming regular file.'
-                                       'Just copying, not patching', patch_spec)
+                        self.log.info('Patch %s does not have ".patch" suffix, assuming regular file.'
+                                       'Just copying to %s, not patching' % (patchspec['path'], patchspec['copy'])
                     else:
                         patchspec['sourcepath'] = suff
                 if level is not None:
