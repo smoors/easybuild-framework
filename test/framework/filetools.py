@@ -1632,6 +1632,10 @@ class FileToolsTest(EnhancedTestCase):
         self.assertEqual(ft.create_patch_info(('foo.patch', 'subdir')), {'name': 'foo.patch', 'sourcepath': 'subdir'})
         self.assertEqual(ft.create_patch_info(('foo.txt', 'subdir')), {'name': 'foo.txt', 'copy': 'subdir'})
 
+        self.allow_deprecated_behaviour()
+        self.assertEqual(ft.create_patch_info('foo.txt'), {'name': 'foo.txt'})
+        self.disallow_deprecated_behaviour()
+
         # deprecation warning (which is an error in this context)
         error_pattern = "Add '.patch' suffix to patch file, or use 2-element list/tuple to specify "
         error_pattern += "path to where non-patch file should be copied: foo.txt"
