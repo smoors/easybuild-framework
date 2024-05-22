@@ -366,8 +366,8 @@ class CommandLineOptionsTest(EnhancedTestCase):
 
         self.assertEqual(len(glob.glob(toy_mod_glob)), 1)
 
-        # check use of module_only + skip sanity check to generate a valid module
-        test_ec_txt += "\nskipsteps = ['module_only']\n"
+        # check use of module_only parameter + skip sanity check to generate a valid module
+        test_ec_txt += "\nmodule_only = True\n"
         write_file(test_ec, test_ec_txt)
         self.eb_main(args, do_build=True, raise_error=True)
 
