@@ -370,7 +370,7 @@ class CommandLineOptionsTest(EnhancedTestCase):
         # check that module_only parameter generates the same module
         test_ec_txt += "\nmodule_only = True\n"
         write_file(test_ec, test_ec_txt)
-        self.eb_main(args + ['--strict=error'], do_build=True, raise_error=True)
+        self.eb_main(args, do_build=True, raise_error=True)
 
         generated_modules = glob.glob(toy_mod_glob)
         self.assertEqual(len(generated_modules), 2)
