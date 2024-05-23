@@ -366,6 +366,9 @@ class CommandLineOptionsTest(EnhancedTestCase):
 
         self.assertEqual(len(glob.glob(toy_mod_glob)), 1)
 
+        for toy_mod in glob.glob(toy_mod_glob):
+            remove_file(toy_mod)
+
         # check use of module_only parameter + skip sanity check to generate a valid module
         test_ec_txt += "\nmodule_only = True\n"
         write_file(test_ec, test_ec_txt)
