@@ -59,6 +59,7 @@ from easybuild.tools.filetools import is_patch_file, mkdir, move_file, parse_htt
 from easybuild.tools.filetools import read_file, remove_dir, remove_file, which, write_file
 from easybuild.tools.github import GITHUB_RAW, GITHUB_EB_MAIN, GITHUB_EASYCONFIGS_REPO
 from easybuild.tools.github import URL_SEPARATOR, fetch_github_token
+from easybuild.tools.hooks import SANITYCHECK_STEP
 from easybuild.tools.module_generator import ModuleGeneratorTcl
 from easybuild.tools.modules import Lmod
 from easybuild.tools.options import EasyBuildOptions, opts_dict_to_eb_opts, parse_external_modules_metadata
@@ -375,6 +376,7 @@ class CommandLineOptionsTest(EnhancedTestCase):
             '--installpath=%s' % self.test_installpath,
         ]
         test_ec_txt += "\nmodule_only = True\n"
+        test_ec_txt += "\nskipsteps = [%s]\n" % SANITYCHECK_STEP
         write_file(test_ec, test_ec_txt)
         self.eb_main(args, do_build=True, raise_error=True)
 
