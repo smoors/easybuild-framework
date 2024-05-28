@@ -376,7 +376,7 @@ class CommandLineOptionsTest(EnhancedTestCase):
             '--installpath=%s' % self.test_installpath,
         ]
         test_ec_txt += "\nmodule_only = True\n"
-        test_ec_txt += "\nskipsteps = [%s]\n" % SANITYCHECK_STEP
+        test_ec_txt += "\nskipsteps = ['%s']\n" % SANITYCHECK_STEP
         write_file(test_ec, test_ec_txt)
         self.eb_main(args, do_build=True, raise_error=True)
 
