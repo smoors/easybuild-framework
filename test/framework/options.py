@@ -1761,6 +1761,7 @@ class CommandLineOptionsTest(EnhancedTestCase):
             gzip_ec,
             '--try-toolchain=iccifort,2016.1.150-GCC-4.9.3-2.25',
             '--dry-run',
+            '--robot',
         ]
 
         # by default, toolchain mapping is enabled
@@ -1817,6 +1818,7 @@ class CommandLineOptionsTest(EnhancedTestCase):
             '--try-toolchain-version=6.4.0-2.28',
             '--try-update-deps',
             '-D',
+            '--robot',
         ]
 
         with self.mocked_stdout_stderr():
@@ -2255,6 +2257,7 @@ class CommandLineOptionsTest(EnhancedTestCase):
         args = [
             '--from-commit=%s' % test_commit,
             '--dry-run',
+            '--robot',
             '--tmpdir=%s' % tmpdir,
             '--include-easyblocks=' + os.path.join(self.test_prefix, 'easyblocks', '*.py'),
         ]
@@ -3121,6 +3124,7 @@ class CommandLineOptionsTest(EnhancedTestCase):
         args = [
             ec_file,
             '--dry-run',
+            '--robot',
             '--hide-toolchains=GCC',
         ]
         with self.mocked_stdout_stderr():
@@ -4385,6 +4389,7 @@ class CommandLineOptionsTest(EnhancedTestCase):
             '--minimal-toolchains',
             '--module-naming-scheme=HierarchicalMNS',
             '--dry-run',
+            '--robot',
         ]
         self.mock_stdout(True)
         self.eb_main(args, do_build=True, raise_error=True, testing=False)
