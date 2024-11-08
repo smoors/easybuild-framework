@@ -1564,12 +1564,15 @@ class CommandLineOptionsTest(EnhancedTestCase):
 
     def test_dry_run(self):
         """Test dry run (long format)."""
+
+        # first test with --robot
         fd, dummylogfn = tempfile.mkstemp(prefix='easybuild-dummy', suffix='.log')
         os.close(fd)
 
         args = [
             'gzip-1.4-GCC-4.6.3.eb',
-            '--dry-run',  # implies enabling dependency resolution
+            '--dry-run',
+            '--robot',  # implies enabling dependency resolution
             '--unittest-file=%s' % self.logfile,
         ]
         with self.mocked_stdout_stderr():
@@ -1585,6 +1588,24 @@ class CommandLineOptionsTest(EnhancedTestCase):
         for ec, mod, mark in ecs_mods:
             regex = re.compile(r" \* \[%s\] \S+%s \(module: %s\)" % (mark, ec, mod), re.M)
             self.assertTrue(regex.search(logtxt), "Found match for pattern %s in '%s'" % (regex.pattern, logtxt))
+
+        # next test without --robot
+        fd, dummylogfn = tempfile.mkstemp(prefix='easybuild-dummy', suffix='.log')
+        os.close(fd)
+
+        args = [
+            'gzip-1.4-GCC-4.6.3.eb',
+            '--dry-run',
+            '--unittest-file=%s' % self.logfile,
+        ]
+        self.eb_main(args, logfile=dummylogfn)
+        logtxt = read_file(self.logfile)
+
+        info_msg = r"Dry run: printing build status of easyconfigs"
+        self.assertTrue(re.search(info_msg, logtxt, re.M), "Info message dry running in '%s'" % logtxt)
+        ec, mod, mark = ("gzip-1.4-GCC-4.6.3.eb", "gzip/1.4-GCC-4.6.3", ' ')
+        regex = re.compile(r" \* \[%s\] \S+%s \(module: %s\)" % (mark, ec, mod), re.M)
+        self.assertTrue(regex.search(logtxt), "Found match for pattern %s in '%s'" % (regex.pattern, logtxt))
 
     def test_missing(self):
         """Test use of --missing/-M."""
@@ -1880,6 +1901,7 @@ class CommandLineOptionsTest(EnhancedTestCase):
             'gzip-1.5-foss-2018a.eb',
             'OpenMPI-2.1.2-GCC-6.4.0-2.28.eb',
             '--dry-run',
+            '--robot',
             '--unittest-file=%s' % self.logfile,
             '--module-naming-scheme=HierarchicalMNS',
             '--ignore-osdeps',
@@ -1921,6 +1943,7 @@ class CommandLineOptionsTest(EnhancedTestCase):
             'gzip-1.5-foss-2018a.eb',
             'OpenMPI-2.1.2-GCC-6.4.0-2.28.eb',
             '--dry-run',
+            '--robot',
             '--unittest-file=%s' % self.logfile,
             '--module-naming-scheme=CategorizedHMNS',
             '--ignore-osdeps',
