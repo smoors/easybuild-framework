@@ -230,7 +230,7 @@ def check_conflicts(easyconfigs, modtool, check_inter_ec_conflicts=True):
     return res
 
 
-def dry_run(easyconfigs, modtool, short=False):
+def dry_run(easyconfigs, modtool, short=False, missing_modules_only=True):
     """
     Compose dry run overview for supplied easyconfigs:
     * [ ] for unavailable
@@ -259,6 +259,10 @@ def dry_run(easyconfigs, modtool, short=False):
         dry_run_fmt = " * [{status}] {ec} (module: {module})"
 
     listed_ec_paths = [spec['spec'] for spec in easyconfigs]
+
+    if missing_modules_only:
+        missing_modules = [x['full_mod_name'] for x in all_specs if x in unbuilt_specs]
+        return ' '.join(missing_modules)
 
     var_name = 'CFGS'
     common_prefix = det_common_path_prefix([spec['spec'] for spec in all_specs if spec['spec'] is not None])

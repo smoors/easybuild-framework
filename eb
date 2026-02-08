@@ -125,4 +125,25 @@ fi
 export EB_SCRIPT_PATH="${0}"
 
 verbose "${PYTHON} -m ${EASYBUILD_MAIN} ${*}"
-exec "${PYTHON}" -m "${EASYBUILD_MAIN}" "${@}"
+
+ARGS=()
+
+check_bwrap() {
+    local found=1
+    ARGS=()
+    for arg in "$@"; do
+        [[ "$arg" == "--bwrap" ]] && found=0 && continue
+        ARGS+=("$arg")
+    done
+    return $found
+}
+
+if check_bwrap "$@"; then
+    echo "Installing with bubblewrap"
+    toinstall=$("${PYTHON}" -m "${EASYBUILD_MAIN}" "${ARGS[@]}" --dry-run | grep -v "^==")
+    echo "$toinstall"
+else
+    exec "${PYTHON}" -m "${EASYBUILD_MAIN}" "${@}"
+fi
+
+
