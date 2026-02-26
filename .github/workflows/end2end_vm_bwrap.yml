@@ -11,8 +11,8 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # 4.2.2
 
-      - name: Install Lmod
-        run: sudo apt-get install -y lmod
+      - name: Install system packages
+        run: sudo apt-get install -y lmod bubblewrap
 
       - name: Download and unpack easyblocks and easyconfigs repositories
         run: |
