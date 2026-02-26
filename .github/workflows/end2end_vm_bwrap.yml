@@ -61,5 +61,6 @@ jobs:
         run: |
           bash -l <<EOF
             source /tmp/eb_env
-            eb bzip2-1.0.8.eb --trace --robot --bwrap --bwrap-installpath /tmp/bwrap-installpath --filter-deps=binutils
+            # eb bzip2-1.0.8.eb --trace --robot --bwrap --bwrap-installpath /tmp/bwrap-installpath --filter-deps=binutils
+            eb bzip2-1.0.8.eb --trace --robot --bwrap --bwrap-installpath /tmp/bwrap-installpath
           EOF
