@@ -41,14 +41,15 @@ jobs:
             "eb -x bzip2-1.0.8.eb"
           )
 
-          source /tmp/eb_env
           for cmd in "${cmds[@]}"; do
               echo ">>> $cmd"
-              $cmd
+              bash -lc "source /tmp/eb_env; $cmd"
           done
 
       - name: End-to-end test of installing bzip2 with EasyBuild
         shell: bash
         run: |
-          source /tmp/eb_env
-          eb bzip2-1.0.8.eb --trace --robot --bwrap --bwrap-installpath /tmp/bwrap-installpath --filter-deps=binutils
+          bash -l <<EOF
+            source /tmp/eb_env
+            eb bzip2-1.0.8.eb --trace --robot --bwrap --bwrap-installpath /tmp/bwrap-installpath --filter-deps=binutils
+          EOF
