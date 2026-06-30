@@ -166,11 +166,11 @@ jobs:
               check_path_exists "bwrap UnZip module file exists" \
                   "/tmp/bwrap-installpath/modules/all/UnZip/6.0.lua" || failures=$((failures + 1))
 
-              check_glob_exists "bwrap UnZip installed libraries exist" \
-                  "/tmp/bwrap-installpath/software/UnZip/*/lib/*" || failures=$((failures + 1))
+              check_glob_exists "bwrap UnZip installed binaries exist" \
+                  "/tmp/bwrap-installpath/software/UnZip/*/bin/*" || failures=$((failures + 1))
 
-              check_glob_exists "bwrap bzip2 installed libraries exist" \
-                  "/tmp/bwrap-installpath/software/bzip2/*/lib/*" || failures=$((failures + 1))
+              check_glob_exists "bwrap bzip2 installed binaries exist" \
+                  "/tmp/bwrap-installpath/software/bzip2/*/bin/*" || failures=$((failures + 1))
 
               check_glob_exists "bwrap UnZip EasyBuild logs exist" \
                   "/tmp/bwrap-installpath/software/UnZip/*/easybuild/*log*" || failures=$((failures + 1))
