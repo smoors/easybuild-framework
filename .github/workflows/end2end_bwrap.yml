@@ -166,11 +166,17 @@ jobs:
               check_path_exists "bwrap UnZip module file exists" \
                   "/tmp/bwrap-installpath/modules/all/UnZip/6.0.lua" || failures=$((failures + 1))
 
-              check_glob_exists "bwrap installed binaries exist" \
-                  "/tmp/bwrap-installpath/software/{UnZip,bzip2}/*/bin/*" || failures=$((failures + 1))
+              check_glob_exists "bwrap UnZip installed libraries exist" \
+                  "/tmp/bwrap-installpath/software/UnZip/*/lib/*" || failures=$((failures + 1))
 
-              check_glob_exists "bwrap EasyBuild logs exist" \
-                  "/tmp/bwrap-installpath/software/{UnZip,bzip2}/*/easybuild/*log*" || failures=$((failures + 1))
+              check_glob_exists "bwrap bzip2 installed libraries exist" \
+                  "/tmp/bwrap-installpath/software/bzip2/*/lib/*" || failures=$((failures + 1))
+
+              check_glob_exists "bwrap UnZip EasyBuild logs exist" \
+                  "/tmp/bwrap-installpath/software/UnZip/*/easybuild/*log*" || failures=$((failures + 1))
+
+              check_glob_exists "bwrap bzip2 EasyBuild logs exist" \
+                  "/tmp/bwrap-installpath/software/bzip2/*/easybuild/*log*" || failures=$((failures + 1))
 
               if [[ "$failures" -ne 0 ]]; then
                   echo "ERROR: $failures bwrap validation check(s) failed"
